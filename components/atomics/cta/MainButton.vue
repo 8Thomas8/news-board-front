@@ -8,7 +8,7 @@ const props = defineProps({
   color: {
     type: String as PropType<'blue' | 'red' | 'green' | 'yellow'>,
     required: false,
-    default: 'blue'
+    default: ''
   }
 })
 
@@ -23,13 +23,13 @@ const returnColors = () => {
     case 'yellow':
       return 'bg-yellow-500 text-white hover:bg-yellow-600 focus:ring-yellow-500 dark:focus:ring-offset-gray-800'
     default:
-      return 'bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500 dark:focus:ring-offset-gray-800'
+      return 'text-gray-700 border-gray-500 hover:bg-gray-100 focus:ring-blue-500 dark:focus:ring-offset-gray-800'
   }
 }
 </script>
 
 <template>
-  <button :class="returnColors()" class="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all text-sm">
+  <button :class="returnColors()" class="inline-flex items-center justify-center gap-2 px-4 py-3 m-1 text-sm font-semibold transition-all border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2">
     {{ props.text }}
   </button>
 </template>

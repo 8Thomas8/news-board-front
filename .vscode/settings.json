@@ -1,5 +1,5 @@
 {
-    "nuxt.isNuxtApp": true,
+    "nuxt.isNuxtApp": false,
     "files.associations": {
         "*.css": "tailwindcss"
     },
