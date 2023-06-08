@@ -14,7 +14,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       // @ts-ignore-next-line
-      apiUrl: environmentSettings[appEnv].apiUrl
+      apiUrl: environmentSettings[appEnv].apiUrl,
+      appEnv
     }
   }
 })

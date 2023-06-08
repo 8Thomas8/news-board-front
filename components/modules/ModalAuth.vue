@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { useAuthModalStore } from '~/store/authModal'
 import validation from '~/config/validation'
+import { useAuthModalStore } from '~/store/authModal'
+import { useAlertErrorStore } from '~/store/alertError'
+import { useApiAuthStore } from '~/store/apiAuth'
 
+const alertErrorStore = useAlertErrorStore()
 const authModalStore = useAuthModalStore()
+const apiAuthStore = useApiAuthStore()
 const modalAuthStatus = computed(() => authModalStore.status)
 const isSignin = ref(false)
 const updateModalAuthStatus = (newValue: boolean) => {
@@ -65,10 +69,17 @@ const resetSigninFormErrors = () => {
   signinFormErrors.value.plainPassword2 = false
 }
 
-const onSubmitLogin = () => {
-  // Validation
+const onSubmitLogin = async () => {
   if (loginFormValidation()) {
-    // Submit
+    try {
+      await apiAuthStore.login({ email: loginForm.value.email, password: loginForm.value.password })
+      updateModalAuthStatus(false)
+    } catch (error: any) {
+      alertErrorStore.setAlert(
+        `Erreur ${error.response._data.statusCode !== '401' ? error.response._data.statusCode : ''}`,
+        `${error.response._data.statusCode !== '404' ? error.response._data.message : error.response.statusText}`
+      )
+    }
   }
 }
 

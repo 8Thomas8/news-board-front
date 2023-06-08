@@ -6,6 +6,7 @@ export const useAlertErrorStore = defineStore({
     setAlert (title: string, message: string) {
       this.title = title
       this.message = message
+      this.showAlert()
       this.clearAlert()
     },
     clearAlert () {
