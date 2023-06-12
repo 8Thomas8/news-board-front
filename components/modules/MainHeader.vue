@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import navigation from '~/config/navigation'
+import { useApiAuthStore } from '~/store/apiAuth'
 import { useAuthModalStore } from '~/store/authModal'
 
 const authModalStore = useAuthModalStore()
+const apiAuthStore = useApiAuthStore()
 </script>
 
 <template>
@@ -62,8 +64,13 @@ const authModalStore = useAuthModalStore()
               </nuxt-link>
             </li>
           </template>
-          <li>
-            <AtomicsCtaMainButton text="Connexion" color="blue" type="button" @click.prevent="authModalStore.setStatus(true)" />
+          <li v-if="!apiAuthStore.isLoggedIn">
+            <AtomicsCtaMainButton color="blue" type="button" @click.prevent="authModalStore.setStatus(true)">
+              Connexion
+            </AtomicsCtaMainButton>
+          </li>
+          <li v-else>
+            <AtomicsCtaProfileButton />
           </li>
         </ul>
       </div>

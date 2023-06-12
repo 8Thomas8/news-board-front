@@ -1,10 +1,5 @@
 <script setup lang="ts">
 const props = defineProps({
-  text: {
-    type: String,
-    required: true,
-    default: 'Button'
-  },
   color: {
     type: String as PropType<'blue' | 'red' | 'green' | 'yellow'>,
     required: false,
@@ -30,6 +25,6 @@ const returnColors = () => {
 
 <template>
   <button :class="returnColors()" class="inline-flex items-center justify-center gap-2 px-4 py-3 m-1 text-sm font-semibold transition-all border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2">
-    {{ props.text }}
+    <slot>Button</slot>
   </button>
 </template>

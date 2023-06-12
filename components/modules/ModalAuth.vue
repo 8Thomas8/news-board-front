@@ -71,15 +71,17 @@ const resetSigninFormErrors = () => {
 
 const onSubmitLogin = async () => {
   if (loginFormValidation()) {
-    try {
-      await apiAuthStore.login({ email: loginForm.value.email, password: loginForm.value.password })
-      updateModalAuthStatus(false)
-    } catch (error: any) {
-      alertErrorStore.setAlert(
-        `Erreur ${error.response._data.statusCode !== '401' ? error.response._data.statusCode : ''}`,
-        `${error.response._data.statusCode !== '404' ? error.response._data.message : error.response.statusText}`
-      )
-    }
+    await apiAuthStore.login({ email: loginForm.value.email, password: loginForm.value.password })
+      .then(() => {
+        updateModalAuthStatus(false)
+        resetLoginForm()
+      })
+      .catch((error: any) => {
+        alertErrorStore.setAlert(
+          `Erreur ${error.response._data.statusCode !== '401' ? error.response._data.statusCode : ''}`,
+          `${error.response._data.statusCode !== '404' ? error.response._data.message : error.response.statusText}`
+        )
+      })
   }
 }
 
@@ -197,8 +199,12 @@ const signinFormValidation = () => {
                 </div>
               </div>
               <div class="flex items-center justify-end px-4 py-3 border-t gap-x-2 dark:border-gray-700">
-                <AtomicsCtaMainButton text="Créer un compte" type="button" @click.prevent="switchForm()" />
-                <AtomicsCtaMainButton text="Se connecter" color="blue" type="submit" />
+                <AtomicsCtaMainButton type="button" @click.prevent="switchForm()">
+                  Créer un compte
+                </AtomicsCtaMainButton>
+                <AtomicsCtaMainButton color="blue" type="submit">
+                  Se connecter
+                </AtomicsCtaMainButton>
               </div>
             </form>
             <form v-else @submit.prevent="onSubmitSignin()">
@@ -283,8 +289,12 @@ const signinFormValidation = () => {
                 </div>
               </div>
               <div class="flex items-center justify-end px-4 py-3 border-t gap-x-2 dark:border-gray-700">
-                <AtomicsCtaMainButton text="J'ai déjà un compte" type="button" @click.prevent="switchForm()" />
-                <AtomicsCtaMainButton text="Créer mon compte" color="blue" type="submit" />
+                <AtomicsCtaMainButton type="button" @click.prevent="switchForm()">
+                  J'ai déjà un compte
+                </AtomicsCtaMainButton>
+                <AtomicsCtaMainButton color="blue" type="submit">
+                  Créer mon compte
+                </AtomicsCtaMainButton>
               </div>
             </form>
           </div>
